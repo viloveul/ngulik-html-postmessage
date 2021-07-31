@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Domain 1</title>
+</head>
+<body>
+	<div id="message"></div>
+	<button onclick="send('Foo')">Foo</button>
+	<button onclick="send('Bar')">Bar</button>
+	<iframe src="http://localhost:2222" hidden="true" id="iframe"></iframe>
+	<script type="text/javascript">
+		document.domain = 'localhost';
+		var message = document.getElementById('message');
+		var iframe = document.getElementById('iframe');
+		var send = function(signal) {
+			iframe.contentWindow.postMessage(signal, 'http://localhost:2222');
+		}
+		window.addEventListener('message', function(event) {
+			message.innerHTML += '<p>' + event.data + '</p>';
+		});
+	</script>
+</body>
+</html>
